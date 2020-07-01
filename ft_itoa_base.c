@@ -12,9 +12,9 @@
 
 #include "libftprintf.h"
 
-static int	ft_itoa_count(unsigned int num, int base)
+static size_t   ft_itoa_count(long long int num, int base)
 {
-	int		count;
+	size_t  count;
 
 	count = 0;
 	if (num == 0)
@@ -27,10 +27,10 @@ static int	ft_itoa_count(unsigned int num, int base)
 	return (count);
 }
 
-static void	ft_itoa_positive(char *res, unsigned int num, int base, int count)
+static void	    ft_itoa_positive(char *res, long long int num, int base, int count)
 {
 	char	*r;
-	int		n;
+	size_t  n;
 
 	r = "0123456789abcdef";
 	if (num == 0)
@@ -43,10 +43,10 @@ static void	ft_itoa_positive(char *res, unsigned int num, int base, int count)
 	}
 }
 
-char		*ft_itoa_base(unsigned int num, int base)
+char		*ft_itoa_base(long long int num, size_t base)
 {
 	char	*result;
-	int		count;
+	size_t  count;
 
 	result = NULL;
 	count = ft_itoa_count(num, base);

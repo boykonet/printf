@@ -10,15 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#define UNS_INT_MAX 4294967295
 #include "libftprintf.h"
 //cspdiuxX%
 
+char    *ft_printf_all(const char *buff, va_list ap);
+
 char	*ft_printf_c(va_list ap)
 {
-	char	c;
-	char	*cc;
+	unsigned char	c;
+	char	        *cc;
 
-	c = (char)va_arg(ap, int);
+	c = (unsigned char)va_arg(ap, int);
 	cc = (char*)malloc(sizeof(char) * 2);
 	cc[0] = c;
 	cc[1] = '\0';
@@ -29,41 +32,25 @@ char	*ft_printf_s(va_list ap)
 {
 	char	*s;
 
-	s = va_arg(ap, char *);
+	s = (char*)va_arg(ap, char *);
 	return (s);
 }
 
-char		*ft_printf_p(va_list ap)
+void	*ft_printf_p(va_list ap)
 {
-	char		*p;
-	char		*pp;
-	char		*var;
-	int			num;
-    unsigned int	*i;
-	int			count;
-	int			j;
+	char        *p;
+	char        *pp;
+	char        *var;
+    long int    num;
+    long int    *i;
 
 	var = "0x";
-	j = 0;
-	num = va_arg(ap, int);
-	i = (unsigned int*)&num;
+	num = (long int)va_arg(ap, size_t);
+	i = (long int*)&num;
 	p = ft_itoa_base(*i, 16);
-	count = ft_strlen(p) + ft_strlen(var);
-	if ((pp = (char*)malloc(sizeof(char) * (count + 1))) == NULL)
-		return (NULL);
-	pp[count] = '\0';
-	j = count - ft_strlen(var);
-	printf("j = %d\n", j);
-	while (count > 0)
-		pp[--count] = p[j--];
-	j = ft_strlen(var);
-	printf("j = %d\n", j);
-	printf("count = %d\n", count);
-	while (j > 0)
-		pp[--count] = var[--j];
+    pp = ft_strjoin(var, p);
 	free(p);
-	printf("pp = %s\n", pp);
-	return (pp);
+	return ((void*)pp);
 }
 
 char	*ft_printf_d_and_i(va_list ap)
@@ -71,18 +58,30 @@ char	*ft_printf_d_and_i(va_list ap)
 	int		num;
 	char	*d;
 
-	num = va_arg(ap, int);
+	num = (int)va_arg(ap, int);
 	d = ft_itoa(num);
 	return (d);
 }
 
+// problem with int min
 char	*ft_printf_u(va_list ap)
 {
+    va_list         aq;
 	char			*uu;
-	unsigned int	u;
+    unsigned int    u;
+    unsigned int    var;
 
-	u = (unsigned int)va_arg(ap, int);
-	uu = ft_itoa(u);
+    va_copy(aq, ap);
+    if ((var = (unsigned int)va_arg(aq, int)) < 0)
+    {
+        u = UNS_INT_MAX + var + 1;
+        uu = ft_itoa_base(u, 10);
+    }
+    else
+    {
+        u = (unsigned int) va_arg(ap, int);
+        uu = ft_itoa_base(u, 10);
+    }
 	return (uu);
 }
 
@@ -114,26 +113,152 @@ char    *ft_printf_x_big(va_list ap)
     return (xx_big);
 }
 
+/*char    *ft_printf_number(const char *buff, va_list ap)
+{
+    char    *var;
+    char    *res;
+    int     num;
+    int     len;
+    int     i;
+
+    i = 0;
+    num = ft_atoi(buff);
+    len = num;
+    while (--len > 0)
+        buff++;
+    var = ft_printf_all(++buff, ap);
+    len = ft_strlen(var);
+    if (len > num)
+        len = num;
+    while (len > i)
+    {
+        res[i] = var[i];
+        i++;
+    }
+    while (num > i)
+        res[++i] = ' ';
+    res[num] = '\0';
+    return (res);
+}
+
+char    *ft_printf_star(const char *buff, va_list ap, char c)
+{
+    char    *var;
+    char    *res;
+    int     num;
+    int     len;
+    int     i;
+
+    num = (int)va_arg(ap, int);
+    var = ft_printf_all(buff, ap);
+    len = ft_strlen(var);
+    res = (char*)malloc(sizeof(char) * (num + 1));
+    if (len > num)
+    {
+        while (num > i)
+            res[i] = *var++;
+    }
+    else
+    {
+        len = (len - num) * (-1);
+        while (len > i)
+            res[i] = c;
+        while (num > i)
+            res[i] = *var++;
+    }
+    res[num] = '\0';
+    return (res);
+}
+
+char    *ft_printf_flags(const char *buff, va_list ap)
+{
+    va_list aq;
+    char    *res;
+    char    *var;
+    char    c;
+    int     num;
+    int     num1;
+    int     num2;
+    int     len;
+    int     i;
+
+    i = 0;
+    if (*buff == '-')
+    {
+        buff++;
+        if (*buff == '0')
+        {
+            buff++;
+            if (*buff >= '0' && *buff <= '9')
+                num1 = ft_atoi(buff);
+            if (*buff == '.')
+                num2 = ft_atoi(++buff);
+        }
+        else if (*buff >= '0' || *buff <= '9')
+        {
+            num = ft_printf_number();
+        }
+        else if (*buff == '*')
+        {
+            num = (int)va_arg(ap, int);
+            res = (char*)malloc(sizeof(char) * (num + 1));
+            var = ft_printf_all(++buff, ap);
+            if (len > num)
+                len = num;
+            while (len > i)
+            {
+                res[i] = var[i];
+                i++;
+            }
+            while (num > i)
+                res[i++] = ' ';
+            res[num] = '\0';
+        }
+        else if (*buff >= '0' && *buff <= '9')
+            ft_printf_number();
+        }
+
+    }
+    else if (*buff == '0')
+    {
+        res =
+    }
+    else if (*buff == '.')
+    {
+        res =
+    }
+    else if (*buff == '*')
+    {
+        ++buff;
+        if (*buff == 'd' || *buff == 'i' || *buff == 's'
+            || *buff == 'u' || *buff == 'x' || *buff == 'X')
+            res = ft_printf_star(buff, ap, ' ');
+    }
+    return (res);
+}*/
+
 char	*ft_printf_all(const char *buff, va_list ap)
 {
-	char	*ukaz;
+	char    *res;
 
-	ukaz = NULL;
+	res = NULL;
 	if (*buff == 'c')
-		ukaz = ft_printf_c(ap);
+		res = ft_printf_c(ap);
 	else if (*buff == 's')
-		ukaz = ft_printf_s(ap);
+		res = ft_printf_s(ap);
 	else if (*buff == 'p')
-		ukaz = ft_printf_p(ap);
-	else if (*buff == 'd' || *buff == 'i')
-		ukaz = ft_printf_d_and_i(ap);
-	else if (*buff == 'u')
-		ukaz = ft_printf_u(ap);
-	else if (*buff == 'x')
-		ukaz = ft_printf_x(ap);
-	else if (*buff == 'X')
-		ukaz = ft_printf_x_big(ap);
-	return (ukaz);
+		res = ft_printf_p(ap);
+    else if (*buff == 'd' || *buff == 'i')
+        res = ft_printf_d_and_i(ap);
+    else if (*buff == 'u')
+        res = ft_printf_u(ap);
+    else if (*buff == 'x')
+        res = ft_printf_x(ap);
+    else if (*buff == 'X')
+        res = ft_printf_x_big(ap);
+//	if (*buff == '-' || *buff == '0' || *buff == '.' || *buff == '*')
+//	    res = ft_printf_flags(buff, ap);
+	return (res);
 }
 
 size_t  ft_lstprintf(t_list **lst)
@@ -165,6 +290,8 @@ int		ft_printf(const char *fmt, ...)
     int         i;
     int         j;
 
+    new = NULL;
+    head = NULL;
     va_start(ap, fmt);
     i = 0;
     buff = ft_strdup(fmt);
@@ -173,7 +300,11 @@ int		ft_printf(const char *fmt, ...)
     {
         if (buff[i] == '%')
         {
-            new = ft_lstnew(ft_printf_all(&buff[++i], ap));
+            if ((new = ft_lstnew(ft_printf_all(&buff[++i], ap))) == NULL)
+            {
+                ft_lstclear(&head, ft_free);
+                return (-1);
+            }
             ft_lstadd_back(&head, new);
             i++;
         }
@@ -182,7 +313,11 @@ int		ft_printf(const char *fmt, ...)
 		    j = i;
             while (buff[i] != '%' && buff[i] != '\0')
                 i++;
-            new = ft_lstnew(ft_substr(&buff[j], 0, i - j));
+            if ((new = ft_lstnew(ft_substr(&buff[j], 0, i - j))) == NULL)
+            {
+                ft_lstclear(&head, ft_free);
+                return (-1);
+            }
             ft_lstadd_back(&head, new);
         }
 	}
