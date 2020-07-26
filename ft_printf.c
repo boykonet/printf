@@ -10,319 +10,102 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#define UNS_INT_MAX 4294967295
 #include "libftprintf.h"
-//cspdiuxX%
 
-char    *ft_printf_all(const char *buff, va_list ap);
-
-char	*ft_printf_c(va_list ap)
+static int		printf_specifiers(t_data *data, va_list ap, char *s)
 {
-	unsigned char	c;
-	char	        *cc;
-
-	c = (unsigned char)va_arg(ap, int);
-	cc = (char*)malloc(sizeof(char) * 2);
-	cc[0] = c;
-	cc[1] = '\0';
-	return (cc);
+    *data = (t_data) { data->buff, data->var, 0, 0, data->size, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0};
+	if (*s == 'c')
+		data->err = printf_c(data, ap, s);
+	else if (*s == 's')
+		data->err = printf_s(data, ap, s);
+	else if (*s == 'p')
+		data->err = printf_p(data, ap, s);
+    else if (*s == 'd' || *s == 'i')
+        data->err = printf_d_and_i(data, ap, s);
+    else if (*s == 'u')
+        data->err = printf_u(data, ap, s);
+    else if (*s == 'x' || *s == 'X')
+        data->err = printf_x_and_x_big(data, ap, s);
+    else if (*s == '%')
+        data->err = printf_percent(data, ap, s);
+	if (data->err == -1)
+		return (-1);
+	return (0);
 }
 
-char	*ft_printf_s(va_list ap)
+static int		printf_flags_specifiers(t_data *data, va_list ap, char *s)
 {
-	char	*s;
-
-	s = (char*)va_arg(ap, char *);
-	return (s);
+	if ((printf_specifiers(data, ap, s)) == -1)
+		return (-1);
+	data->count = ft_strlen(data->var);
+	write_printf(data->var, data->count);
+	data->size += data->count;
+	free(data->var);
+	data->var = NULL;
+	return (0);
 }
 
-void	*ft_printf_p(va_list ap)
+static char         *check_percent(t_data *data, va_list ap, char *b)
 {
-	char        *p;
-	char        *pp;
-	char        *var;
-    long int    num;
-    long int    *i;
-
-	var = "0x";
-	num = (long int)va_arg(ap, size_t);
-	i = (long int*)&num;
-	p = ft_itoa_base(*i, 16);
-    pp = ft_strjoin(var, p);
-	free(p);
-	return ((void*)pp);
-}
-
-char	*ft_printf_d_and_i(va_list ap)
-{
-	int		num;
-	char	*d;
-
-	num = (int)va_arg(ap, int);
-	d = ft_itoa(num);
-	return (d);
-}
-
-// problem with int min
-char	*ft_printf_u(va_list ap)
-{
-    va_list         aq;
-	char			*uu;
-    unsigned int    u;
-    unsigned int    var;
-
-    va_copy(aq, ap);
-    if ((var = (unsigned int)va_arg(aq, int)) < 0)
+    data->buff = ++b;
+    while (*b != '\0')
     {
-        u = UNS_INT_MAX + var + 1;
-        uu = ft_itoa_base(u, 10);
+        if ((ft_strchr("cspdiuxX%", *b)) != NULL)
+            break ;
+        b++;
     }
-    else
+    if ((ft_strchr("cspdiuxX%", *b)) != NULL)
     {
-        u = (unsigned int) va_arg(ap, int);
-        uu = ft_itoa_base(u, 10);
-    }
-	return (uu);
-}
-
-char	*ft_printf_x(va_list ap)
-{
-    char            *xx;
-    long long int   x;
-
-    x = (long long int)va_arg(ap, int);
-    xx = ft_itoa_base(x, 16);
-    return (xx);
-}
-
-char    *ft_printf_x_big(va_list ap)
-{
-    char            *xx_big;
-    long long int   x_big;
-    int             i;
-
-    i = 0;
-    x_big = (long long int)va_arg(ap, int);
-    xx_big = ft_itoa_base(x_big, 16);
-    while (xx_big[i])
-    {
-        if (xx_big[i] >= 'a' && xx_big[i] <= 'x')
-            xx_big[i] = xx_big[i] - 32;
-        i++;
-    }
-    return (xx_big);
-}
-
-/*char    *ft_printf_number(const char *buff, va_list ap)
-{
-    char    *var;
-    char    *res;
-    int     num;
-    int     len;
-    int     i;
-
-    i = 0;
-    num = ft_atoi(buff);
-    len = num;
-    while (--len > 0)
-        buff++;
-    var = ft_printf_all(++buff, ap);
-    len = ft_strlen(var);
-    if (len > num)
-        len = num;
-    while (len > i)
-    {
-        res[i] = var[i];
-        i++;
-    }
-    while (num > i)
-        res[++i] = ' ';
-    res[num] = '\0';
-    return (res);
-}
-
-char    *ft_printf_star(const char *buff, va_list ap, char c)
-{
-    char    *var;
-    char    *res;
-    int     num;
-    int     len;
-    int     i;
-
-    num = (int)va_arg(ap, int);
-    var = ft_printf_all(buff, ap);
-    len = ft_strlen(var);
-    res = (char*)malloc(sizeof(char) * (num + 1));
-    if (len > num)
-    {
-        while (num > i)
-            res[i] = *var++;
-    }
-    else
-    {
-        len = (len - num) * (-1);
-        while (len > i)
-            res[i] = c;
-        while (num > i)
-            res[i] = *var++;
-    }
-    res[num] = '\0';
-    return (res);
-}
-
-char    *ft_printf_flags(const char *buff, va_list ap)
-{
-    va_list aq;
-    char    *res;
-    char    *var;
-    char    c;
-    int     num;
-    int     num1;
-    int     num2;
-    int     len;
-    int     i;
-
-    i = 0;
-    if (*buff == '-')
-    {
-        buff++;
-        if (*buff == '0')
+        if ((printf_flags_specifiers(data, ap, b)) == -1)
         {
-            buff++;
-            if (*buff >= '0' && *buff <= '9')
-                num1 = ft_atoi(buff);
-            if (*buff == '.')
-                num2 = ft_atoi(++buff);
+            free(data);
+            va_end(ap);
+            return (NULL);
         }
-        else if (*buff >= '0' || *buff <= '9')
-        {
-            num = ft_printf_number();
-        }
-        else if (*buff == '*')
-        {
-            num = (int)va_arg(ap, int);
-            res = (char*)malloc(sizeof(char) * (num + 1));
-            var = ft_printf_all(++buff, ap);
-            if (len > num)
-                len = num;
-            while (len > i)
-            {
-                res[i] = var[i];
-                i++;
-            }
-            while (num > i)
-                res[i++] = ' ';
-            res[num] = '\0';
-        }
-        else if (*buff >= '0' && *buff <= '9')
-            ft_printf_number();
-        }
-
+        data->buff = ++b;
     }
-    else if (*buff == '0')
-    {
-        res =
-    }
-    else if (*buff == '.')
-    {
-        res =
-    }
-    else if (*buff == '*')
-    {
-        ++buff;
-        if (*buff == 'd' || *buff == 'i' || *buff == 's'
-            || *buff == 'u' || *buff == 'x' || *buff == 'X')
-            res = ft_printf_star(buff, ap, ' ');
-    }
-    return (res);
-}*/
-
-char	*ft_printf_all(const char *buff, va_list ap)
-{
-	char    *res;
-
-	res = NULL;
-	if (*buff == 'c')
-		res = ft_printf_c(ap);
-	else if (*buff == 's')
-		res = ft_printf_s(ap);
-	else if (*buff == 'p')
-		res = ft_printf_p(ap);
-    else if (*buff == 'd' || *buff == 'i')
-        res = ft_printf_d_and_i(ap);
-    else if (*buff == 'u')
-        res = ft_printf_u(ap);
-    else if (*buff == 'x')
-        res = ft_printf_x(ap);
-    else if (*buff == 'X')
-        res = ft_printf_x_big(ap);
-//	if (*buff == '-' || *buff == '0' || *buff == '.' || *buff == '*')
-//	    res = ft_printf_flags(buff, ap);
-	return (res);
+    return (b);
 }
 
-size_t  ft_lstprintf(t_list **lst)
+static char         *print_alphabet(t_data *data, char *b)
 {
-	t_list	*current;
-	t_list	*prev;
-	size_t  count;
-	size_t  len;
-
-	current = (*lst);
-	count = 0;
-	while (current != NULL)
-	{
-		prev = current;
-		len = ft_strlen(prev->content);
-		write(1, prev->content, len);
-		count = count + len;
-		current = current->next;
-	}
-	return (count);
+    data->count = 0;
+    data->buff = b;
+    while (*b != '%' && *b != '\0')
+    {
+        data->count++;
+        b++;
+    }
+    data->size += data->count;
+    write_printf(data->buff, data->count);
+    return (b);
 }
 
-int		ft_printf(const char *fmt, ...)
+int				ft_printf(const char *fmt, ...)
 {
     va_list     ap;
-    const char  *buff;
-    t_list      *new;
-    t_list      *head;
-    int         i;
-    int         j;
+	t_data		*data;
+	char		*b;
+	int			size;
 
-    new = NULL;
-    head = NULL;
     va_start(ap, fmt);
-    i = 0;
-    buff = ft_strdup(fmt);
-    head = new;
-	while (buff[i])
-    {
-        if (buff[i] == '%')
-        {
-            if ((new = ft_lstnew(ft_printf_all(&buff[++i], ap))) == NULL)
-            {
-                ft_lstclear(&head, ft_free);
-                return (-1);
-            }
-            ft_lstadd_back(&head, new);
-            i++;
-        }
-		else
-        {
-		    j = i;
-            while (buff[i] != '%' && buff[i] != '\0')
-                i++;
-            if ((new = ft_lstnew(ft_substr(&buff[j], 0, i - j))) == NULL)
-            {
-                ft_lstclear(&head, ft_free);
-                return (-1);
-            }
-            ft_lstadd_back(&head, new);
-        }
+	b = (char*)fmt;
+	if ((data = (t_data*)malloc(sizeof(t_data))) == NULL)
+	{
+		va_end(ap);
+		return (-1);
 	}
-	j = ft_lstprintf(&head);
-//	ft_lstclear(&head, ft_free);
+	*data = (t_data) { NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0 };
+	while (*b)
+    {
+        if (*b == '%')
+            b = check_percent(data, ap, b);
+		else
+            b = print_alphabet(data, b);
+	}
+	size = data->size;
+	free(data);
 	va_end(ap);
-	return (j);
+	return (size);
 }

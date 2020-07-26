@@ -12,30 +12,46 @@
 
 NAME = libftprintf.a
 
-REG_OBJ_FILES = ft_printf.o ft_substr.o ft_strlen.o ft_free.o ft_itoa.o ft_itoa_base.o ft_lstadd_back.o ft_lstclear.o ft_lstdelone.o ft_lstnew.o ft_lstsize.o ft_strdup.o ft_strjoin.o
-
-BONUS_OBJ_FILES = check.o
-
-ifdef WITH_BONUS
-OBJ_FILES = $(REG_OBJ_FILES) $(BONUS_OBJ_FILES)
-else
-OBJ_FILES = $(REG_OBJ_FILES)
-endif
-
 FLAGS = -Wall -Wextra -Werror
+
+SRCS = ft_printf.c \
+	   ft_itoa_base.c \
+	   write_printf.c \
+	   checker_printf.c \
+	   alloc_array.c \
+	   dist_printf.c \
+	   fill_array.c \
+	   mapi_printf.c \
+	   printf_c.c \
+	   printf_s.c \
+	   printf_p.c \
+	   printf_d_and_i.c \
+	   printf_u.c \
+	   printf_x_and_x_big.c \
+	   printf_percent.c \
+
+OBJS = $(SRCS:%.c=%.o)
+
+INCLUDES = ./
 
 all: $(NAME)
 
-$(NAME): $(OBJ_FILES)
-	@ar rc $(NAME) $(OBJ_FILES)
+$(NAME): $(OBJS)
+	make -C ./libft
+	cp ./libft/libft.a .
+	mv libft.a $(NAME)
+	ar rc $(NAME) $(OBJS)
+	ranlib $(NAME)
 
 %.o: %.c
-	@$(CC) -c $(FLAGS) -o $@ $<
+	$(CC) -c $(FLAGS) -I$(INCLUDES) -o $@ $<
 
 clean:
-	rm -f $(REG_OBJ_FILES) $(BONUS_OBJ_FILES)
+	make fclean -C ./libft
+	rm -f $(OBJS)
 
 fclean: clean
+	make fclean -C ./libft
 	rm -f $(NAME)
 
 re:
@@ -48,7 +64,7 @@ bonus:
 	$(MAKE) WITH_BONUS=1 all
 
 rule:
-	@$(MAKE) all
-	@$(CC) main.c -L. -lftprintf
-	@./a.out
-	@rm -rf a.out
+	$(MAKE) all
+	$(CC) main.c -L. -lftprintf
+	./a.out
+	rm -f a.out

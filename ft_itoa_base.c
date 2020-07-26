@@ -12,7 +12,7 @@
 
 #include "libftprintf.h"
 
-static size_t   ft_itoa_count(long long int num, int base)
+static size_t   ft_itoa_count(long int num, int base)
 {
 	size_t  count;
 
@@ -27,7 +27,7 @@ static size_t   ft_itoa_count(long long int num, int base)
 	return (count);
 }
 
-static void	    ft_itoa_positive(char *res, long long int num, int base, int count)
+static void	    ft_itoa_positive(char *res, long int num, int base, int count)
 {
 	char	*r;
 	size_t  n;
@@ -43,7 +43,7 @@ static void	    ft_itoa_positive(char *res, long long int num, int base, int cou
 	}
 }
 
-char		*ft_itoa_base(long long int num, size_t base)
+char		*ft_itoa_base(long int num, size_t base)
 {
 	char	*result;
 	size_t  count;

@@ -5,28 +5,44 @@
 int main()
 {
     int a = 5;
+    int a1, b1;
 
 
-    printf("%p\n", "5");
-	ft_printf("%p\n", "5");
-    printf("%p\n", &a);
-    ft_printf("%p\n", &a);
+    a1 = printf("%p\n", "5");
+	b1 = ft_printf("%p\n", "5");
+	printf("%d %d\n", a1, b1);
+    a1 = printf("%p\n", &a);
+    b1 = ft_printf("%p\n", &a);
+    printf("%d %d\n", a1, b1);
 
-//    int     a;
-//    int     b;
-//    int     c = -122;
+    int     c = -122;
 
-//	printf("sveta - %c, %s, %d, %i, %x, %X, %p, %u\n", 'a', "sveta", 55, 44, 122, 122, &c, 1);
-//	ft_printf("sveta - %c, %s, %d, %i, %x, %X, %p, %u\n", 'a', "sveta", 55, 44, 122, 122, &c, 1);
-//    printf("printf :%u\n", -2147483648);
-//    ft_printf("ft_printf :%u\n", -2147483648);
-//    printf("%%0.5i :<%0.5i>\n", -22);
-//    ft_printf("ft_printf :%i\n", -22);
-//    printf("%%0.0i :<%0.0i>\n", -22);
-//    printf("  %%5i :<%5i>\n", -22);
-//    printf("%%5.0i :<%5.0i>\n", -22);
-//    printf("%%5.5i :<%5.5i>\n", -22);
-//    printf("%%0.5i :<%0.5i>\n", -22);
+	printf("%d\n", printf("sveta - %c, %s, %d, %i, %x, %X, %p, %u\n", 'a', "sveta", 55, 44, 122, 122, &c, 1));
+	printf("%d\n", ft_printf("sveta - %c, %s, %d, %i, %x, %X, %p, %u\n", 'a', "sveta", 55, 44, 122, 122, &c, 1));
+
+    printf("%u\n", -2147483648);
+    ft_printf("%u\n", -2147483648);
+
+    printf("0.5i :<%0.5i>\n", -22);
+    ft_printf("0.5i :<%0.5i>\n", -22);
+
+    printf("0.5i :<%0.5i>\n", 22);
+    ft_printf("0.5i :<%0.5i>\n", 22);
+
+    printf("0.0i :<%0.0i>\n", -22);
+    ft_printf("0.0i :<%0.0i>\n", -22);
+
+	printf("0.0i :<%0.0i>\n", 22);
+    ft_printf("0.0i :<%0.0i>\n", 22);
+
+    printf("5i :<%5i>\n", -22);
+    ft_printf("5i :<%5i>\n", -22);
+
+    printf("5.0i :<%5.0i>\n", -22);
+    ft_printf("5.0i :<%5.0i>\n", -22);
+
+    printf("5.5i :<%5.5i>\n", -22);
+    ft_printf("5.5i :<%5.5i>\n", -22);
 
 //	printf(" %%0*d :<%0*d>\n", 5, 3);
 //	printf("  %%*d :<%*d>\n", 5, 3);
@@ -52,8 +68,6 @@ int main()
 //	printf("%%0-d :<%0-d>\n", 3, 5);
 
 //cspdiuxX%
-
-/*	int a = 3;
 
 	printf("flag == -, all\n");
     printf("%%-c      :<%-c>\n", '3');
@@ -134,21 +148,51 @@ int main()
     printf("%%-20i      :<%-20i>\n", 3);
     printf("%%-20u      :<%-20u>\n", 3);
     printf("%%-20x      :<%-20x>\n", 3);
-    printf("%%-20X      :<%-20X>\n", 3);*/
+    printf("%%-20X      :<%-20X>\n", 3);
+	printf("%d\n", printf("*(20)c  <%*c>\n", 20, 'c'));
+    printf("%d\n", ft_printf("*(20)c  <%*c>\n", 20, 'c'));
+
+	printf("%d\n", printf("-*(20)c <%-*c>\n", 20, 'c'));
+    printf("%d\n", ft_printf("-*(20)c <%-*c>\n", 20, 'c'));
+
+	printf("%d\n", printf("-20c    <%-20c>\n", 'c'));
+    printf("%d\n", ft_printf("-20c    <%-20c>\n", 'c'));
+
+	printf("%d\n", printf("-20.c   <%-20.c>\n", 'c'));
+    printf("%d\n", ft_printf("-20.c   <%-20.c>\n", 'c'));
+
+	printf("%d\n", printf("-*(20).c<%-*.c>\n", 20, 'c'));
+    printf("%d\n", ft_printf("-*(20).c<%-*.c>\n", 20, 'c'));
+
+	printf("%d\n", printf("- <%-*.c>\n", 20, 'c'));
+	printf("%d\n", ft_printf("- <%-*.c>\n", 20, 'c'));
 
 
+	printf("31.21i  <%31.21i>\n", 55);
+	printf("21.31i  <%21.31i>\n\n", 55);
+
+	
+	printf("-31.21i <%-31.21i>\n", 55);
+	printf("-21.31i <%-21.31i>\n\n", 55);
 
 
+	printf("-21.21i <%-21.21i>\n\n", 55);
+	
+
+	printf("031.21i <%031.21i>\n", 55);
+	printf("021.31i <%021.31i>\n", 55);
+
+
+	printf("21.0i    <%21.0i>\n", 55);
+	printf("0.31i    <%0.31i>\n", 55);
+
+
+	printf("-21.0i    <%-21.0i>\n", 55);
+	printf("-0.31i    <%-.31i>\n", 55);
+
+
+	printf("-21.1i    <%-21.1i>\n", 55);
+	printf("-21.2i    <%-21.2i>\n", 55);
+	printf("-21.3i    <%-21.3i>\n", 55);
     return 0;
 }
-
-
-/*int		main()
-{
-    t_list	*new;
-
-    new = ft_lstnew(ft_strdup("kdfndnfd"));
-    new->next = ft_lstnew(ft_strdup("kdfndnfd555"));
-    ft_lstprintf(&new);
-    return 0;
-}*/

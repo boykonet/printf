@@ -12,29 +12,49 @@
 
 #ifndef LIBFTPRINTF_H
 # define LIBFTPRINTF_H
+#include "./libft/libft.h"
 #include <stdlib.h>
 #include <stdarg.h>
 #include <unistd.h>
-#include <stdio.h>
 
-typedef struct		s_list
+#define UNS_INT_MAX 4294967295
+
+typedef struct		s_data
 {
-	void			*content;
-	struct s_list	*next;
-}					t_list;
+	char			*buff;
+	char			*var;
+	int				sign;
+	int				dot;
+	int				size;
+	int				count;
+	int				num_1;
+	int				num_2;
+	int				s_arr;
+	int             n_num;
+	int             num_1_n;
+	int             num_2_n;
+	int             flag;
+	int             s_check;
+	int             ss_check;
+	int				err;
+}					t_data;
 
 int					ft_printf(const char *fmt, ...);
-char				*ft_itoa_base(long long int num, size_t base);
-char				*ft_substr(char const *s, unsigned int start, size_t len);
-size_t				ft_strlen(const char *s);
-char				*ft_itoa(int n);
-char				*ft_strdup(const char *s1);
-char	            *ft_strjoin(char const *s1, char const *s2);
-void	            *ft_memset(void *b, int c, size_t len);
-int					ft_atoi(const char *str);
-t_list				*ft_lstnew(void *content);
-void				ft_lstadd_back(t_list **lst, t_list *new);
-void	            ft_lstclear(t_list **lst, void (*del)(void *));
-void                ft_free(void *content);
+char				*ft_itoa_base(long int num, size_t base);
+void				write_printf(char *line, int len);
+int					printf_c(t_data *data, va_list ap, char *s);
+int					printf_s(t_data *data, va_list ap, char *s);
+int					printf_p(t_data *data, va_list ap, char *s);
+int					printf_d_and_i(t_data *data, va_list ap, char *s);
+int					printf_u(t_data *data, va_list ap, char *s);
+int					printf_x_and_x_big(t_data *data, va_list ap, char *s);
+int					printf_percent(t_data *data, va_list ap, char *s);
+int					checker_printf(t_data *data, va_list ap, char ch);
+char				*alloc_array(t_data *dt, char *bo);
+int					dist_printf(t_data *data);
+char				*fill_array(t_data *data, char *bo, int len_bo,
+					int differ_num);
+int					mapi_printf(t_data *data, va_list ap, char const c,
+					int (*func)(t_data*, va_list));
 
 #endif
