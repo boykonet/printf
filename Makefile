@@ -21,7 +21,7 @@ SRCS = ft_printf.c \
 	   alloc_array.c \
 	   dist_printf.c \
 	   fill_array.c \
-	   mapi_printf.c \
+	   printf_spec.c \
 	   printf_c.c \
 	   printf_s.c \
 	   printf_p.c \

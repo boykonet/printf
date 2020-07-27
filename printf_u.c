@@ -13,7 +13,7 @@
 #include "libftprintf.h"
 
 // problem with int min
-int					u_without_flags(t_data *data, va_list ap)
+int					get_data_u(t_data *data, va_list ap)
 {
     va_list         aq;
     unsigned int    u;
@@ -38,14 +38,7 @@ int					u_without_flags(t_data *data, va_list ap)
 
 int				printf_u(t_data *data, va_list ap, char *s)
 {
-    if (*s == *data->buff)
-    {
-        if ((mapi_printf(data, ap, *s, &u_without_flags)) == -1)
-            return (-1);
-        return (0);
-    }
-	if ((mapi_printf(data, ap, *s, &u_without_flags)) == -1)
-		return (-1);
-	dist_printf(data);
-	return (0);
+    if ((printf_spec(data, ap, *s, &get_data_u)) == -1)
+        return (-1);
+    return (0);
 }

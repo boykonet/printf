@@ -12,132 +12,52 @@
 
 #include "libftprintf.h"
 
-static int          dist_s(t_data *data, int len_bo, int differ_num)
-{
-    differ_num = data->num_1 - data->num_2;
-    if (differ_num > 0)
-    {
-        if (len_bo >= data->num_1 && data->s_check == 0)
-        {
-            if (data->dot == 1)
-            {
-                len_bo = data->num_2;
-                data->s_arr = data->num_1;
-            }
-            else
-                data->s_arr = len_bo;
-        }
-        else if (len_bo >= data->num_1 && data->s_check == 1)
-        {
-            data->s_arr = data->num_1;
-            len_bo = data->num_2;
-        }
-        else
-        {
-            if (len_bo < data->num_1 && data->s_check == 1)
-                len_bo = data->num_2;
-            data->s_arr = data->num_1;
-        }
-    }
-    else
-    {
-        if (len_bo >= data->num_2)
-            len_bo = data->num_2;
-        data->s_arr = data->num_2;
-    }
-    return (len_bo);
-}
-
-static int      dist_percent(t_data *data, int len_bo, int differ_num)
-{
-    differ_num = data->num_1 - data->num_2;
-    if (differ_num > 0)
-    {
-        if (data->num_1 < len_bo)
-            data->s_arr = len_bo;
-        else
-            data->s_arr = data->num_1;
-        data->num_2 = len_bo;
-    }
-    else
-    {
-        if (data->num_1 < len_bo)
-            data->s_arr = len_bo;
-        else
-            data->s_arr = data->num_1;
-        data->num_2 = len_bo;
-    }
-    return (len_bo);
-}
-
-static int      num_negative(t_data *data, int len_bo, int differ_num)
-{
-    if (data->num_1_n == -1 || data->num_2_n == -1)
-    {
-        if (data->num_1_n == -1 && data->num_2_n == 1)
-            data->sign = 1;
-        else if (data->num_1_n == 1 && data->num_2_n == -1)
-        {
-            if (data->n_num == -1)
-                len_bo--;
-            data->num_2 = len_bo;
-            data->sign = 0;
-        }
-        else if (data->num_1_n == -1 && data->num_2_n == -1)
-        {
-            if (differ_num > 0)
-                data->num_2 = len_bo;
-            else
-                data->s_arr = len_bo;
-            data->sign = 1;
-        }
-    }
-    return (len_bo);
-}
-
-static int          dist_numbers(t_data *data, char *bo, int len_bo, int differ_num)
-{
-    if (*bo == '-')
-        data->n_num = -1;
-    if (differ_num > 0)
-    {
-        if (data->num_1 < len_bo)
-            data->s_arr = len_bo;
-        else
-            data->s_arr = data->num_1;
-        if (data->n_num == -1 && data->num_2 < len_bo)
-            data->num_2 = len_bo;
-    }
-    else
-    {
-        if (len_bo > data->num_2)
-            data->s_arr = len_bo;
-        else
-            data->s_arr = data->num_2;
-//        if (data->n_num == -1)
-//            data->s_arr++;
-    }
-    len_bo = num_negative(data, len_bo, differ_num);
-    return (len_bo);
-}
-
 int		dist_printf(t_data *data)
 {
-	char	*bo;
-	int		len_bo;
+	char	*str;
+	int		len_str;
 	int		differ_num;
 
-	bo = data->var;
-    len_bo = ft_strlen(bo);
-	differ_num = data->num_1 - data->num_2;
-	if ((ft_strchr("piduxX", *data->buff)))
-	    len_bo = dist_numbers(data, bo, len_bo, differ_num);
-	else if ((ft_strchr("s", *data->buff)))
-	    len_bo = dist_s(data, len_bo, differ_num);
-	else if ((ft_strchr("c%", *data->buff)))
-	    len_bo = dist_percent(data, len_bo, differ_num);
-    if ((data->var = alloc_array(data, bo)) == NULL)
+	str = data->var;
+    len_str = ft_strlen(str);
+	differ_num = data->width - data->precision;
+    if (*data->buff == 's')
+    {
+        if (data->dot == 0)
+            data->precision = len_str;
+        else
+        {
+            if (len_str > data->precision)
+                len_str = data->precision;
+        }
+    }
+	if ((ft_strchr("piduxX", *data->buff)) && *str == '-')
+    {
+        data->n_num = -1;
+        len_str--;
+    }
+	if (differ_num > 0)
+    {
+	    data->s_arr = data->width;
+        if (data->n_num == 1)
+        {
+            if (len_str > data->width)
+                data->s_arr = len_str;
+        }
+        else
+        {
+            if (len_str >= data->width)
+                data->s_arr = len_str + 1;
+        }
+    }
+	else
+    {
+	    data->s_arr = data->precision;
+	    if (data->n_num == -1)
+	        data->s_arr++;
+    }
+    if ((data->var = alloc_array(data, str)) == NULL)
         return (-1);
-    fill_array(data, bo, len_bo, differ_num);
+    fill_array(data, str, len_str, differ_num);
 	return (0);
 }

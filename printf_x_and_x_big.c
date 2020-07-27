@@ -12,7 +12,7 @@
 
 #include "libftprintf.h"
 
-int					x_without_flags(t_data *data, va_list ap)
+int					get_data_x(t_data *data, va_list ap)
 {
     long int        x;
     unsigned int    xx;
@@ -27,7 +27,7 @@ int					x_without_flags(t_data *data, va_list ap)
     return (0);
 }
 
-int					x_big_without_flags(t_data *data, va_list ap)
+int					get_data_x_big(t_data *data, va_list ap)
 {
     long int        x;
     unsigned int    xx;
@@ -54,26 +54,13 @@ int				printf_x_and_x_big(t_data *data, va_list ap, char *s)
 {
     if (*s == 'x')
     {
-        if (*s == *data->buff)
-        {
-            if ((mapi_printf(data, ap, *s, &x_without_flags)) == -1)
-                return (-1);
-            return (0);
-        }
-        if ((mapi_printf(data, ap, *s, &x_without_flags)) == -1)
+        if ((printf_spec(data, ap, *s, &get_data_x)) == -1)
             return (-1);
     }
     else
     {
-        if (*s == *data->buff)
-        {
-            if ((mapi_printf(data, ap, *s, &x_big_without_flags)) == -1)
-                return (-1);
-            return (0);
-        }
-        if ((mapi_printf(data, ap, *s, &x_big_without_flags)) == -1)
+        if ((printf_spec(data, ap, *s, &get_data_x_big)) == -1)
             return (-1);
     }
-	dist_printf(data);
-	return (0);
+    return (0);
 }

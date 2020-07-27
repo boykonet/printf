@@ -12,48 +12,60 @@
 
 #include "libftprintf.h"
 
-int		checker_printf(t_data *data, va_list ap, char ch)
+void    checker_flags(t_data *data)
 {
-    data->flag = 0;
-	if (*data->buff == '-')
+    if (*data->buff == '-')
         data->sign = 1;
-	else if (*data->buff == '0' && data->sign == 0)
+    else if (*data->buff == '0' && data->sign == 0)
         data->sign = 2;
-	else if (*data->buff == '*' && data->dot == 0)
+    if (data->sign != 0)
+        data->buff++;
+}
+
+void    checker_width(t_data *data, va_list ap)
+{
+    if (*data->buff == '*' && data->dot == 0)
     {
-        if ((data->num_1 = va_arg(ap, int)) < 0)
+        if ((data->width = va_arg(ap, int)) < 0)
         {
-            data->num_1 *= (-1);
-            data->num_1_n = -1;
+            data->sign = 1;
+            data->width *= (-1);
         }
+        data->buff++;
     }
-	else if ((*data->buff >= '0' && *data->buff <= '9') && data->dot == 0)
-	{
-	    data->flag = 1;
-		data->num_1 = ft_atoi(data->buff);
-		while (*data->buff >= '0' && *data->buff <= '9')
-			data->buff++;
-	}
-	else if (*data->buff == '.')
+    else if ((*data->buff >= '0' && *data->buff <= '9') && data->dot == 0)
+    {
+        data->width = ft_atoi(data->buff);
+        while (*data->buff >= '0' && *data->buff <= '9')
+            data->buff++;
+    }
+}
+
+void    checker_precision(t_data *data, va_list ap)
+{
+    if (*data->buff == '.')
+    {
         data->dot = 1;
-	else if (*data->buff == '*' && data->dot == 1)
-    {
-	    if (ch == 's')
-	        data->s_check = 1;
-        if ((data->num_2 = va_arg(ap, int)) < 0)
-        {
-            data->num_2 *= (-1);
-            data->num_2_n = -1;
-        }
+        data->buff++;
     }
-	else if ((*data->buff >= '0' && *data->buff <= '9') && data->dot == 1)
-	{
-	    if (ch == 's')
-	        data->s_check = 1;
-	    data->flag = 1;
-		data->num_2 = ft_atoi(data->buff);
-		while (*data->buff >= '0' && *data->buff <= '9')
-			data->buff++;
-	}
+    if (*data->buff == '*')
+    {
+        if ((data->precision = va_arg(ap, int)) < 0)
+            data->precision = 0;
+        data->buff++;
+    }
+    else if (*data->buff >= '0' && *data->buff <= '9')
+    {
+        data->precision = ft_atoi(data->buff);
+        while (*data->buff >= '0' && *data->buff <= '9')
+            data->buff++;
+    }
+}
+
+int		checker_printf(t_data *data, va_list ap)
+{
+    checker_flags(data);
+    checker_width(data, ap);
+    checker_precision(data, ap);
 	return (0);
 }

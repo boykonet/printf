@@ -12,7 +12,7 @@
 
 #include "libftprintf.h"
 
-int				p_without_flags(t_data *data, va_list ap)
+int				get_data_p(t_data *data, va_list ap)
 {
 	char        *p;
 	char        *var;
@@ -35,14 +35,7 @@ int				p_without_flags(t_data *data, va_list ap)
 
 int				printf_p(t_data *data, va_list ap, char *s)
 {
-    if (*s == *data->buff)
-    {
-        if ((mapi_printf(data, ap, *s, &p_without_flags)) == -1)
-            return (-1);
-        return (0);
-    }
-	if ((mapi_printf(data, ap, *s, &p_without_flags)) == -1)
-		return (-1);
-	dist_printf(data);
-	return (0);
+    if ((printf_spec(data, ap, *s, &get_data_p)) == -1)
+        return (-1);
+    return (0);
 }

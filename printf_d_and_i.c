@@ -1,7 +1,7 @@
 
 #include "libftprintf.h"
 
-static int		d_and_i_without_flags(t_data *data, va_list ap)
+static int		get_data_d_and_i(t_data *data, va_list ap)
 {
 	int			num;
 
@@ -13,14 +13,7 @@ static int		d_and_i_without_flags(t_data *data, va_list ap)
 
 int				printf_d_and_i(t_data *data, va_list ap, char *s)
 {
-    if (*s == *data->buff)
-    {
-        if ((mapi_printf(data, ap, *s, &d_and_i_without_flags)) == -1)
-            return (-1);
-        return (0);
-    }
-	if ((mapi_printf(data, ap, *s, &d_and_i_without_flags)) == -1)
-		return (-1);
-	dist_printf(data);
-	return (0);
+    if ((printf_spec(data, ap, *s, &get_data_d_and_i)) == -1)
+        return (-1);
+    return (0);
 }

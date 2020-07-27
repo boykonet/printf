@@ -27,8 +27,8 @@ typedef struct		s_data
 	int				dot;
 	int				size;
 	int				count;
-	int				num_1;
-	int				num_2;
+	int				width;
+	int				precision;
 	int				s_arr;
 	int             n_num;
 	int             num_1_n;
@@ -49,12 +49,11 @@ int					printf_d_and_i(t_data *data, va_list ap, char *s);
 int					printf_u(t_data *data, va_list ap, char *s);
 int					printf_x_and_x_big(t_data *data, va_list ap, char *s);
 int					printf_percent(t_data *data, va_list ap, char *s);
-int					checker_printf(t_data *data, va_list ap, char ch);
+int					checker_printf(t_data *data, va_list ap);
 char				*alloc_array(t_data *dt, char *bo);
 int					dist_printf(t_data *data);
-char				*fill_array(t_data *data, char *bo, int len_bo,
+char				*fill_array(t_data *data, char *str, int len_str,
 					int differ_num);
-int					mapi_printf(t_data *data, va_list ap, char const c,
-					int (*func)(t_data*, va_list));
+int				    printf_spec(t_data *data, va_list ap, char ch, int (*f)(t_data*, va_list));
 
 #endif

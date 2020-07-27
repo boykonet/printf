@@ -14,24 +14,24 @@
 
 static int      fill_s(t_data *data, char *bo, int len_bo, int differ_num)
 {
-    differ_num = data->num_1 - data->num_2;
+    differ_num = data->width - data->precision;
     if (differ_num > 0)
     {
         ft_memset(data->var, ' ', data->s_arr);
         data->var[data->s_arr] = '\0';
         if (data->sign == 0)
         {
-            ft_memset(&data->var[differ_num], '0', data->num_2);
+            ft_memset(&data->var[differ_num], '0', data->precision);
             ft_memcpy(&data->var[data->s_arr - len_bo], bo, len_bo);
         }
         else if (data->sign == 1)
         {
-            if (data->num_2 < len_bo)
-                data->num_2 = len_bo;
+            if (data->precision < len_bo)
+                data->precision = len_bo;
             if (data->n_num == -1 && (data->num_1_n == 1 && data->num_2_n == 1))
-                data->num_2++;
-            ft_memset(data->var, '0', data->num_2);
-            ft_memcpy(&data->var[data->num_2 - len_bo], bo, len_bo);
+                data->precision++;
+            ft_memset(data->var, '0', data->precision);
+            ft_memcpy(&data->var[data->precision - len_bo], bo, len_bo);
         }
         else if (data->sign == 2)
         {
@@ -51,89 +51,96 @@ static int      fill_s(t_data *data, char *bo, int len_bo, int differ_num)
     return (0);
 }
 
-static int      fill_numbers(t_data *data, char *bo, int len_bo, int differ_num)
+static int      fill_i_d_u_x_x_big(t_data *data, char *str, int len_str, int diff_num)
 {
-    differ_num = data->num_1 - data->num_2;
-    if (differ_num > 0)
+    int     temp;
+
+    if (diff_num > 0)
     {
         ft_memset(data->var, ' ', data->s_arr);
         data->var[data->s_arr] = '\0';
+        if (data->sign == 2)
+        {
+            if (data->dot == 0)
+            {
+                ft_memset(data->var, '0', data->s_arr);
+                if (data->n_num == 1)
+                    ft_memcpy(&data->var[data->s_arr - len_str], str, len_str);
+                else
+                {
+                    *data->var = '-';
+                    ft_memcpy(&data->var[data->s_arr - len_str], &str[1], len_str);
+                }
+            }
+            else
+                data->sign = 0;
+        }
         if (data->sign == 0)
         {
-            if (data->n_num == -1)
+            if (data->n_num == 1)
             {
-                len_bo--;
-                data->num_2--;
-                ft_memset(&data->var[data->s_arr - data->num_2], '0', data->num_2);
-                ft_memcpy(&data->var[data->s_arr - len_bo], &bo[1], len_bo);
+                ft_memset(&data->var[data->s_arr - data->precision], '0', data->precision);
+                ft_memcpy(&data->var[data->s_arr - len_str], str, len_str);
             }
             else
             {
-                ft_memset(&data->var[differ_num], '0', data->num_2);
-                ft_memcpy(&data->var[data->s_arr - len_bo], bo, len_bo);
+                temp = data->precision < len_str ? len_str : data->precision;
+                ft_memset(&data->var[data->s_arr - temp], '0', temp);
+                ft_memcpy(&data->var[data->s_arr - len_str], &str[1], len_str);
+                if (temp > len_str)
+                    data->var[diff_num - 1] = '-';
+                else
+                    data->var[data->s_arr - temp - 1] = '-';
             }
         }
         else if (data->sign == 1)
         {
-            if (data->num_2 < len_bo)
-                data->num_2 = len_bo;
-            ft_memset(data->var, '0', data->num_2);
-            ft_memcpy(&data->var[data->num_2 - len_bo], bo, len_bo);
-        }
-        else if (data->sign == 2)
-        {
-            if (data->dot == 0)
-                ft_memset(data->var, '0', data->s_arr);
+            if (data->n_num == 1)
+            {
+                temp = data->precision < len_str ? len_str : data->precision;
+                ft_memset(data->var, '0', temp);
+                ft_memcpy(&data->var[temp - len_str], str, len_str);
+            }
             else
-                ft_memset(data->var, ' ', data->s_arr);
-            if (data->n_num == -1)
-                ft_memcpy(&data->var[data->s_arr - len_bo], &bo[1], len_bo);
-            else
-                ft_memcpy(&data->var[data->s_arr - len_bo], bo, len_bo);
-        }
-        if (data->n_num == -1)
-        {
-            if (data->n_num == -1 && data->sign == 0)
-                data->var[differ_num - 1] = '-';
-            else if (data->n_num == -1 && data->sign == 1)
+            {
+                temp = data->precision < len_str ? len_str : data->precision;
                 *data->var = '-';
-            else if (data->n_num == -1 && data->sign == 2)
-                *data->var = '-';
+                ft_memset(&data->var[1], '0', temp);
+                ft_memcpy(&data->var[temp - len_str + 1], &str[1], len_str);
+            }
         }
     }
     else
     {
         ft_memset(data->var, '0', data->s_arr);
         data->var[data->s_arr] = '\0';
-        if (data->n_num == -1)
-        {
-            len_bo--;
-            ft_memcpy(&data->var[data->s_arr - len_bo], &bo[1], len_bo);
-        }
+        if (data->n_num == 1)
+            ft_memcpy(&data->var[data->s_arr - len_str], str, len_str);
         else
-            ft_memcpy(&data->var[data->s_arr - len_bo], bo, len_bo);
-        if (data->n_num == -1)
+        {
             *data->var = '-';
+            ft_memcpy(&data->var[data->s_arr - len_str], &str[1], len_str);
+        }
     }
     return (0);
 }
 
 static int      fill_percent(t_data *data, char *bo, int len_bo, int differ_num)
 {
-    differ_num = data->num_1 - data->num_2;
+    differ_num = data->width - data->precision;
     ft_memset(data->var, ' ', data->s_arr);
     data->var[data->s_arr] = '\0';
     if (data->sign == 0)
     {
-        ft_memset(&data->var[differ_num], '0', data->num_2);
+        ft_memset(&data->var[differ_num], '0', data->precision);
         ft_memcpy(&data->var[data->s_arr - len_bo], bo, len_bo);
     }
     if (data->sign == 1)
     {
-        if (data->num_2 < len_bo)
-            data->num_2 = len_bo;
-        ft_memset(data->var, '0', data->num_2);
-        ft_memcpy(&data->var[data->num_2 - len_bo], bo, len_bo);
+        if (data->precision < len_bo)
+            data->precision = len_bo;
+        ft_memset(data->var, '0', data->precision);
+        ft_memcpy(&data->var[data->precision - len_bo], bo, len_bo);
     }
     else if (data->sign == 2)
     {
@@ -143,13 +150,13 @@ static int      fill_percent(t_data *data, char *bo, int len_bo, int differ_num)
     return (0);
 }
 
-char	*fill_array(t_data *data, char *bo, int len_bo, int differ_num)
+char	*fill_array(t_data *data, char *str, int len_str, int diff_num)
 {
-    if ((ft_strchr("piduxX", *data->buff)))
-        fill_numbers(data, bo, len_bo, differ_num);
-    else if ((ft_strchr("s", *data->buff)))
-        fill_s(data, bo, len_bo, differ_num);
+//    if ((ft_strchr("iduxX", *data->buff)))
+       fill_i_d_u_x_x_big(data, str, len_str, diff_num);
+/*    else if ((ft_strchr("s", *data->buff)))
+        fill_s(data, str, len_str, diff_num);
     else if ((ft_strchr("c%", *data->buff)))
-        fill_percent(data, bo, len_bo, differ_num);
+        fill_percent(data, str, len_str, diff_num);*/
 	return (0);
 }

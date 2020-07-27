@@ -4,7 +4,7 @@
 
 int main()
 {
-    int a = 5;
+/*    int a = 5;
     int a1, b1;
 
 
@@ -193,6 +193,101 @@ int main()
 
 	printf("-21.1i    <%-21.1i>\n", 55);
 	printf("-21.2i    <%-21.2i>\n", 55);
-	printf("-21.3i    <%-21.3i>\n", 55);
+	printf("-21.3i    <%-21.3i>\n", 55);*/
+
+/*	int a = 5;
+	printf("<%d>\n", 1000000000);
+	printf("<%*.*i>\n", -10, -20, 10000000);
+	printf("<%-.*i>\n", -10, 10000000);*/
+
+
+/*	printf("fill me <%*.*d>\n", -5, -20, -1);
+	printf("fill me <%-*.*d>\n", 10, 20, -1);
+
+	printf("\nfill me <%*.*d>\n", 10, 20, -1);
+	printf("fill me <%*.*d>\n", 20, 10, -1);
+
+	printf("\nfill me <%*.*d>\n", -20, 10, -1);
+	printf("fill me <%*.*d>\n", 20, -10, -1);
+	printf("fill me <%*.*d>\n", -20, -10, -1);
+
+	printf("\nfill me <%*.*d>\n", -10, 20, -1);
+	printf("fill me <%*.*d>\n", 10, -20, -1);
+	printf("fill me <%*.*d>\n", -10, -20, -1);
+
+	printf("\nfill me <%*.*d>\n", -5, 8, -123456789);
+	printf("fill me <%*.*d>\n", 5, -8, -123456789);
+	printf("fill me <%*.*d>\n", -5, -8, -123456789);
+
+
+	printf("\nfill me <%*.*d>\n", -8, 5, -123456789);
+	printf("fill me <%*.*d>\n", 8, -5, -123456789);
+	printf("fill me <%*.*d>\n", -8, -5, -123456789);*/
+/*	printf("<%*.p>\n", 20, &a);
+//	printf("<%-.*i>\n", -10, 10000000);
+//	printf("<%-.*i>\n", -10, 10000000);
+
+	printf("<%*.*s>\n", 10, 20, "qwerty");
+	printf("<%*.*s>\n", 20, 10, "qwerty");
+	printf("<%*.*s>\n", -10, -20, "qwerty");
+	printf("<%*.*s>\n", -20, -10, "qwerty");
+	printf("<%*.*s>\n", -10, 20, "qwerty");
+	printf("<%*.*s>\n", -20, 20, "qwerty");
+	printf("<%*.*s>\n", 10, -20, "qwerty");
+	printf("<%*.*s>\n", 20, -10, "qwerty");*/
+
+
+
+    int a = 4;
+	printf("<%*.*d>\n", 15, a, -555);
+    ft_printf("<%*.*d>\n", 15, a, -555);
+	printf("<%-*.*d>\n", 15, a, -555);
+    ft_printf("<%-*.*d>\n", 15, a, -555);
+	printf("<%*.*d>\n", 15, a, 555);
+    ft_printf("<%*.*d>\n", 15, a, 555);
+	printf("<%-*.*d>\n", 15, a, 555);
+    ft_printf("<%-*.*d>\n\n", 15, a, 555);
+
+
+    int b = 100;
+    printf("<%-*.*d>\n", 15, b, 555);
+    ft_printf("<%-*.*d>\n\n", 15, b, 555);
+
+    printf("<%-*.*d>\n", 15, b, -555);
+    ft_printf("<%-*.*d>\n\n", 15, b, -555);
+
+
+
+    int c = 1;
+    printf("\n<%0*d>\n", c, -555);
+    ft_printf("<%0*d>\n", c, -555);
+    printf("\n<%0*d>\n", c, 555);
+    ft_printf("<%0*d>\n", c, 555);
+
+    printf("\n<%0*.d>\n", c, -555);
+    ft_printf("<%0*.d>\n", c, -555);
+    printf("\n<%0*.d>\n", c, 555);
+    ft_printf("<%0*.d>\n", c, 555);
+
+
+    int d = 5;
+    printf("<%-*.s>\n", d, "-555");
+    ft_printf("<%-*.s>\n", d, "-555");
+
+	printf("<%-*s>\n", d, "-555");
+    ft_printf("<%-*s>\n", d, "-555");
+
+/*	printf("<%*.*d>\n", 5, 5, 5);
+	printf("<%*.*d>\n", 4, 5, 5);
+	printf("<%*.*d>\n", 5, 4, 5);
+
+
+	printf("<%*.c>\n", 5, 'c');
+	printf("<%*.c>\n", -5, 'c');
+	printf("<%-*.c>\n", 5, 'c');
+	printf("<%-*.c>\n", -5, 'c');*/
+	
+
+//	printf("%d\n", "qwerty");
     return 0;
 }
