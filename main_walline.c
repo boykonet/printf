@@ -57,18 +57,18 @@ int main()
 	int num = -245;
 
 	printf("---Minimum field width---\n");
-	c1 = ft_printf("smaller:%2s equal:%4s bigger:%6s\n", str, str, str);
-	c2 = printf("smaller:%2s equal:%4s bigger:%6s\n", str, str, str);
+	c1 = printf("smaller:%2s equal:%4s bigger:%6s\n", str, str, str);
+	c2 = ft_printf("smaller:%2s equal:%4s bigger:%6s\n", str, str, str);
 	printf("Returned %d %d\t", c1, c2);
 	checkret(c1, c2);
 
-	c1 = ft_printf("smaller:%-2s equal:%-4s bigger:%-6s with '-'\n", str, str, str);
-	c2 = printf("smaller:%-2s equal:%-4s bigger:%-6s with '-'\n", str, str, str);
+	c1 = printf("smaller:%-2s equal:%-4s bigger:%-6s with '-'\n", str, str, str);
+	c2 = ft_printf("smaller:%-2s equal:%-4s bigger:%-6s with '-'\n", str, str, str);
 	printf("Returned %d %d\t", c1, c2);
 	checkret(c1, c2);
 
-	c1 = ft_printf("smaller:%02s equal:%04s bigger:%06s with '0'\n", str, str, str);
-	c2 = printf("smaller:%02s equal:%04s bigger:%06s with '0'\n", str, str, str);
+	c1 = printf("smaller:%02s equal:%04s bigger:%06s with '0'\n", str, str, str);
+	c2 = ft_printf("smaller:%02s equal:%04s bigger:%06s with '0'\n", str, str, str);
 	printf("\033[0;35mUNDEFINED BEHAVIOR EXPECTED!\033[0m\n");
 	printf("Returned %d %d\t", c1, c2);
 	printf("\n\n\t");
@@ -85,13 +85,13 @@ int main()
 	printf("Returned %d %d\t", c1, c2);
 	checkret(c1, c2);
 
-	c1 = ft_printf("smaller:%-2.4s equal:%-4.4s bigger:%-6.4s with '.4'\n", str, str, str);
-	c2 = printf("smaller:%-2.4s equal:%-4.4s bigger:%-6.4s with '.4'\n", str, str, str);
+	c1 = printf("smaller:%-2.4s equal:%-4.4s bigger:%-6.4s with '.4'\n", str, str, str);
+	c2 = ft_printf("smaller:%-2.4s equal:%-4.4s bigger:%-6.4s with '.4'\n", str, str, str);
 	printf("Returned %d %d\t", c1, c2);
 	checkret(c1, c2);
 
-	c1 = ft_printf("smaller:%02.6s equal:%04.6s bigger:%06.6s with '.6'\n", str, str, str);
-	c2 = printf("smaller:%02.6s equal:%04.6s bigger:%06.6s with '.6'\n", str, str, str);
+	c1 = printf("smaller:%02.6s equal:%04.6s bigger:%06.6s with '.6'\n", str, str, str);
+	c2 = ft_printf("smaller:%02.6s equal:%04.6s bigger:%06.6s with '.6'\n", str, str, str);
 	printf("\033[0;35mUNDEFINED BEHAVIOR EXPECTED!\033[0m\n");
 	printf("Returned %d %d\t", c1, c2);
 	printf("\n\n");
@@ -101,30 +101,30 @@ int main()
 	printf("----------------------------------\n");
 
 	printf("---Minimum field width with '*'---\n");
-	c1 = ft_printf("pos:%*s null:%*s neg:%*s|\n", 8, str, 0, str, -8, str);
-	c2 = printf("pos:%*s null:%*s neg:%*s|\n", 8, str, 0, str, -8, str);
+	c1 = printf("pos:%*s null:%*s neg:%*s|\n", 8, str, 0, str, -8, str);
+	c2 = ft_printf("pos:%*s null:%*s neg:%*s|\n", 8, str, 0, str, -8, str);
 	printf("Returned %d %d\t", c1, c2);
 	checkret(c1, c2);
 
 	printf("---Precision with '*'---\n");
-	c1 = ft_printf("pos:%.*s null:%.*s neg:%.*s\n", 8, str, 0, str, -8, str);
-	c2 = printf("pos:%.*s null:%.*s neg:%.*s\n", 8, str, 0, str, -8, str);
+	c1 = printf("pos:%.*s null:%.*s neg:%.*s\n", 8, str, 0, str, -8, str);
+	c2 = ft_printf("pos:%.*s null:%.*s neg:%.*s\n", 8, str, 0, str, -8, str);
 	printf("Returned %d %d\t", c1, c2);
 	checkret(c1, c2);
 
 	printf("---Both with '*'---\n");
-	c1 = ft_printf("+/+:%*.*s -/-:%*.*s -/+:%*.*s +/-:%*.*s\n", 6, 8, str, -6, -8, str, -6, 8, str,  6, -8, str);
-	c2 = printf("+/+:%*.*s -/-:%*.*s -/+:%*.*s +/-:%*.*s\n", 6, 8, str, -6, -8, str, -6, 8, str,  6, -8, str);
+	c1 = printf("+/+:%*.*s -/-:%*.*s -/+:%*.*s +/-:%*.*s\n", 6, 8, str, -6, -8, str, -6, 8, str,  6, -8, str);
+	c2 = ft_printf("+/+:%*.*s -/-:%*.*s -/+:%*.*s +/-:%*.*s\n", 6, 8, str, -6, -8, str, -6, 8, str,  6, -8, str);
 	printf("Returned %d %d\t", c1, c2);
 	checkret(c1, c2);
 
-	c1 = ft_printf("0/+:%*.*s| 0/-:%*.*s| -/0:%*.*s| +/0:%*.*s|\n", 0, 8, str, 0, -8, str, -6, 0, str,  6, 0, str);
-	c2 = printf("0/+:%*.*s| 0/-:%*.*s| -/0:%*.*s| +/0:%*.*s|\n", 0, 8, str, 0, -8, str, -6, 0, str,  6, 0, str);
+	c1 = printf("0/+:%*.*s| 0/-:%*.*s| -/0:%*.*s| +/0:%*.*s|\n", 0, 8, str, 0, -8, str, -6, 0, str,  6, 0, str);
+	c2 = ft_printf("0/+:%*.*s| 0/-:%*.*s| -/0:%*.*s| +/0:%*.*s|\n", 0, 8, str, 0, -8, str, -6, 0, str,  6, 0, str);
 	printf("Returned %d %d\t", c1, c2);
 	checkret(c1, c2);
 
-	c1 = ft_printf("+/+:%-*.*s -/-:%-*.*s -/+:%-*.*s +/-:%-*.*s with '-'\n", 6, 8, str, -6, -8, str, -6, 8, str,  6, -8, str);
-	c2 = printf("+/+:%-*.*s -/-:%-*.*s -/+:%-*.*s +/-:%-*.*s with '-'\n", 6, 8, str, -6, -8, str, -6, 8, str,  6, -8, str);
+	c1 = printf("+/+:%-*.*s -/-:%-*.*s -/+:%-*.*s +/-:%-*.*s with '-'\n", 6, 8, str, -6, -8, str, -6, 8, str,  6, -8, str);
+	c2 = ft_printf("+/+:%-*.*s -/-:%-*.*s -/+:%-*.*s +/-:%-*.*s with '-'\n", 6, 8, str, -6, -8, str, -6, 8, str,  6, -8, str);
 	printf("Returned %d %d\t", c1, c2);
 	checkret(c1, c2);
 
@@ -163,11 +163,11 @@ int main()
 	printf("Returned %d %d\t", c1, c2);
 	checkret(c1, c2);
 
-	c1 = ft_printf("testtest%testtest\n");
+/*	c1 = ft_printf("testtest%testtest\n");
 	c2 = printf("testtest%testtest\n");
 	printf("\033[0;35mUNDEFINED BEHAVIOR EXPECTED!\033[0m\n");
 	printf("Returned %d %d\t", c1, c2);
-	printf("\n\n");
+	printf("\n\n");*/
 
 	 c1 = ft_printf("%15p %*.7d MIXED %*.*s TEST! %%%05%%% I %10.7u H%dPE %c%c %.3sSH %10.6x%-7.5X YOUR PRINTF!%%\n", \
 	 &str, 8, -42, -5, 3, "woop", 15975, 0, 'I', 'T', "CRASH", 15, 15013);
@@ -195,8 +195,8 @@ int main()
 	 printf("Returned %d %d\t", c1, c2);
 	 checkret(c1, c2);
 
-	 c1 = ft_printf("|%7.0d|%7.0d|%7.0X|%7.0X|%7.0u|%7.0u|\n", 0, 9, 0, 9, 0, 9, 0, 9);
-	 c2 = printf("|%7.0d|%7.0d|%7.0X|%7.0X|%7.0u|%7.0u|\n", 0, 9, 0, 9, 0, 9, 0, 9);
+	 c1 = printf("|%7.0d|%7.0d|%7.0X|%7.0X|%7.0u|%7.0u|\n", 0, 9, 0, 9, 0, 9, 0, 9);
+	 c2 = ft_printf("|%7.0d|%7.0d|%7.0X|%7.0X|%7.0u|%7.0u|\n", 0, 9, 0, 9, 0, 9, 0, 9);
 	 printf("Returned %d %d\t", c1, c2);
 	 checkret(c1, c2);
 

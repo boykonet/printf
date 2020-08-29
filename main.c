@@ -249,6 +249,18 @@ int main()
     ft_printf("<%-*.*d>\n\n", 15, a, 555);
 
 
+    int g = -1;
+    int gg = -13;
+    printf("<%*d>\n", -15, -555);
+    ft_printf("<%*d>\n", -15, -555);
+    printf("<%-*d>\n", -15, -555);
+    ft_printf("<%-*d>\n", -15, -555);
+    printf("<%*.*d>\n", g, gg, 555);
+    ft_printf("<%*.*d>\n", g, gg, 555);
+    printf("<%-*.*d>\n", g, gg, 555);
+    ft_printf("<%-*.*d>\n\n", g, gg, 555);
+
+
     int b = 100;
     printf("<%-*.*d>\n", 15, b, 555);
     ft_printf("<%-*.*d>\n\n", 15, b, 555);
@@ -270,24 +282,190 @@ int main()
     ft_printf("<%0*.d>\n", c, 555);
 
 
-    int d = 5;
-    printf("<%-*.s>\n", d, "-555");
-    ft_printf("<%-*.s>\n", d, "-555");
+    printf("-----s-----\n\n");
+//    int d = 5;
 
-	printf("<%-*s>\n", d, "-555");
-    ft_printf("<%-*s>\n", d, "-555");
+    printf("<%s>\n", "qwerty");
+    ft_printf("<%s>\n\n", "qwerty");
 
-/*	printf("<%*.*d>\n", 5, 5, 5);
+    printf("<%.s>\n", "qwerty");
+    ft_printf("<%.s>\n\n", "qwerty");
+
+    printf("<%7.10s>\n", "qwerty12345");
+    ft_printf("<%7.10s>\n\n", "qwerty12345");
+
+    printf("<%5.s>\n", "qwerty");
+    ft_printf("<%5.s>\n\n", "qwerty");
+
+    printf("<%.10s>\n", "qwerty");
+    ft_printf("<%.10s>\n\n", "qwerty");
+
+    printf("<%-5.s>\n", "qwerty");
+    ft_printf("<%-5.s>\n\n", "qwerty");
+
+    printf("<%-.10s>\n", "qwerty");
+    ft_printf("<%-.10s>\n\n", "qwerty");
+
+    printf("<%*.*s>\n", -5, -10, "qwerty");
+    ft_printf("<%*.*s>\n\n", -5, -10, "qwerty");
+
+    printf("<%*.*s>\n", -5, 10, "qwerty");
+    ft_printf("<%*.*s>\n\n", -5, 10, "qwerty");
+
+    printf("-------%%-------\n");
+
+    printf ("1 - <%%>\n");
+    ft_printf ("1 - <%%>\n\n");
+
+    printf ("2 - <%.%>\n");
+    ft_printf ("2 - <%.%>\n\n");
+
+    printf ("3 - <%5.%>\n");
+    ft_printf ("3 - <%5.%>\n\n");
+
+    printf ("4 - <%-%>\n");
+    ft_printf ("4 - <%-%>\n\n");
+
+    printf ("5 - <%-.%>\n");
+    ft_printf ("5 - <%-.%>\n\n");
+
+    printf ("6 - <%-5.%>\n");
+    ft_printf ("6 - <%-5.%>\n\n");
+
+    printf ("7 - <%-5.4%>\n");
+    ft_printf ("7 - <%-5.4%>\n\n");
+
+    printf ("8 - <%-5.10%>\n");
+    ft_printf ("8 - <%-5.10%>\n\n");
+
+    printf ("9 - <%5.10%>\n");
+    ft_printf ("9 - <%5.10%>\n\n");
+
+    printf ("10 - <%-*.*%>\n", 5, 10);
+    ft_printf ("10 - <%-*.*%>\n\n", 5, 10);
+
+    printf ("11 - <%*.*%>\n", 5, 10);
+    ft_printf ("11 - <%*.*%>\n\n", 5, 10);
+
+    printf ("12 - <%-*.*%>\n", 10, 5);
+    ft_printf ("12 - <%-*.*%>\n\n", 10, 5);
+
+    printf ("13 - <%*.*%>\n", 10, 5);
+    ft_printf ("13 - <%*.*%>\n\n", 10, 5);
+
+    printf ("14 - <%-*.*%>\n", -10, 5);
+    ft_printf ("14 - <%-*.*%>\n\n", -10, 5);
+
+    printf ("15 - <%*.*%>\n", -10, 5);
+    ft_printf ("15 - <%*.*%>\n\n", -10, 5);
+
+    printf ("16 - <%-*.*%>\n", 10, -5);
+    ft_printf ("16 - <%-*.*%>\n\n", 10, -5);
+
+    printf ("17 - <%*.*%>\n", 10, -5);
+    ft_printf ("17 - <%*.*%>\n\n", 10, -5);
+
+    printf ("18 - <%-*.*%>\n", -10, -5);
+    ft_printf ("18 - <%-*.*%>\n\n", -10, -5);
+
+    printf ("19 - <%*.*%>\n", -10, -5);
+    ft_printf ("19 - <%*.*%>\n\n", -10, -5);
+
+    printf ("20 - <%-.*%>\n", 10);
+    ft_printf ("20 - <%-.*%>\n\n", 10);
+
+    printf ("21 - <%*.%>\n", 10);
+    ft_printf ("21 - <%*.%>\n\n", 10);
+
+
+	printf("<%*.*d>\n", 5, 5, 5);
+    ft_printf("<%*.*d>\n", 5, 5, 5);
 	printf("<%*.*d>\n", 4, 5, 5);
+    ft_printf("<%*.*d>\n", 4, 5, 5);
 	printf("<%*.*d>\n", 5, 4, 5);
+    ft_printf("<%*.*d>\n", 5, 4, 5);
+
+    printf("----------c-----------\n\n");
+	printf("1 - <%c>\n", 'c');
+    ft_printf("1 - <%c>\n\n", 'c');
+
+    printf("2 - <%.c>\n", 'c');
+    ft_printf("2 - <%.c>\n\n", 'c');
+
+    printf("3 - <%-.c>\n", 'c');
+    ft_printf("3 - <%-.c>\n\n", 'c');
+
+    printf("4 - <%-5.c>\n", 'c');
+    ft_printf("4 - <%-5.c>\n\n", 'c');
+
+    printf("5 - <%5.c>\n", 'c');
+    ft_printf("5 - <%5.c>\n\n", 'c');
+
+    printf("6 - <%-*.c>\n", 5, 'c');
+    ft_printf("6 - <%-*.c>\n\n", 5, 'c');
+
+    printf("7 - <%*.c>\n", 5, 'c');
+    ft_printf("7 - <%*.c>\n\n", 5, 'c');
+
+    printf("8 - <%-*.c>\n", -5, 'c');
+    ft_printf("8 - <%-*.c>\n\n", -5, 'c');
+
+    printf("9 - <%*.c>\n", -5, 'c');
+    ft_printf("9 - <%*.c>\n\n", -5, 'c');
+
+    printf("8.1 - <%-*c>\n", -5, 'c');
+    ft_printf("8.1 - <%-*c>\n\n", -5, 'c');
+
+    printf("9.1 - <%*c>\n", -5, 'c');
+    ft_printf("9.1 - <%*c>\n\n", -5, 'c');
+
+    printf("10 - <%*.c>\n", 0, 'c');
+    ft_printf("10 - <%*.c>\n\n", 0, 'c');
+
+    printf("11 - <%-*.c>\n", 0, 'c');
+    ft_printf("11 - <%-*.c>\n\n", 0, 'c');
+
+    printf("12 - <%*c>\n", 0, 'c');
+    ft_printf("12 - <%*c>\n\n", 0, 'c');
+
+    printf("13 - <%-*c>\n", 0, 'c');
+    ft_printf("13 - <%-*c>\n\n", 0, 'c');
 
 
-	printf("<%*.c>\n", 5, 'c');
-	printf("<%*.c>\n", -5, 'c');
-	printf("<%-*.c>\n", 5, 'c');
-	printf("<%-*.c>\n", -5, 'c');*/
-	
 
-//	printf("%d\n", "qwerty");
+    printf("<%*.*s>\n", 6, 2, "TEST");
+    ft_printf("<%*.*s>\n", 6, 2, "TEST");
+
+    printf("<%*.*s>\n", 6, 2, "TEST");
+    ft_printf("<%*.*s>\n", 6, 2, "TEST");
+
+    printf("<%30.20s>\n", "qwertyuiop");
+    ft_printf("<%30.20s>\n", "qwertyuiop");
+    printf("<%9.5s>\n", "qwertyuiop");
+    ft_printf("<%9.5s>\n", "qwertyuiop");
+
+    printf("<%30.20s>\n", "abc1234567890123456789012");
+    ft_printf("<%30.20s>\n", "abc1234567890123456789012");
+
+
+	printf("<%7.0d>\n", 0);
+	ft_printf("<%7.0d>\n", 0);
+	printf("<%7.0d>\n", 1);
+	ft_printf("<%7.0d>\n", 1);
+	printf("<%7.0s>\n", "");
+	ft_printf("<%7.0s>\n", "");
+
+
+	printf("<%0*.*i>\n", 0, -2, 8);
+    ft_printf("<%0*.*i>\n", 0, -2, 8);
+
+    printf("<%0*.*i>\n", 2, -1, 8);
+    ft_printf("<%0*.*i>\n", 2, -1, 8);
+
+    printf("<%0*.*u>, <%0*.*x>, <%0*.*X>\n", 2, -1, 0, 2, -1, 0, 2, -1, 0);
+    ft_printf("<%0*.*u>, <%0*.*x>, <%0*.*X>\n", 2, -1, 0, 2, -1, 0, 2, -1, 0);
+
+    printf("<%0*.*d>\n", 4, -2, -12);
+    ft_printf("<%0*.*d>\n", 4, -2, -12);
     return 0;
 }
